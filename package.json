@@ -1,0 +1,30 @@
+{
+	"name": "fndn-rn-datastore",
+	"version": "0.3.0",
+	"description": "A sync'ing offline-first datastore for React Native.",
+	"main": "index.ios.js",
+	"author": {
+		"name": "Jørgen Skogmo",
+		"email": "js@fndn.dk",
+		"url": "http://fndn.dk"
+	},
+	"nativePackage": false,
+	"peerDependencies": {
+		"react-native": "^0.10.0"
+	},
+	"keywords": [
+		"react-native",
+		"react",
+		"native",
+		"database",
+		"upload",
+		"download"
+	],
+	"scripts": {},
+	"dependencies": {
+		"shortid": "^2.2.2",
+		"es6-promise": "^3.0.2",
+		"xhr": "^2.0.3"
+	},
+	"readme": "todo"
+}
