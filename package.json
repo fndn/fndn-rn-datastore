@@ -10,9 +10,7 @@
 	},
 	"nativePackage": false,
 	"private": true,
-	"peerDependencies": {
-		"react-native": "*"
-	},
+	
 	"keywords": [
 		"react-native",
 		"react",
