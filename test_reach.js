@@ -9,6 +9,10 @@ module.exports = function(){
 		console.log("OnReachableStateChanged", state, responsetime);
 	});
 
+	Datastore.reach.subscribe( function(state, responsetime){
+		console.log("ReachableStateChanged", state, responsetime);
+	});
+
 	Datastore.reach.enable();
 
 }

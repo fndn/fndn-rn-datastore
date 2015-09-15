@@ -7,8 +7,8 @@ module.exports = function(){
 
 	/// WebServer
 
-	console.log( "Datastore.port:", ds.opts.localport );
-	ds.ws.start({port:ds.opts.localport, bonjourName:ds.opts.localbonjour});
+	console.log( "Datastore.port:", ds.opts().localport );
+	ds.ws.start({port:ds.opts().localport, bonjourName:ds.opts().localbonjour});
 	//ds.ws.start({bonjourName:'who-fwa-dev-hosted-2'});
 
 
