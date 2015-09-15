@@ -1,4 +1,4 @@
-var pack 					= require('./package.json'); // somehow fails :|
+//var pack 					= require('./package.json'); // somehow fails :|
 
 module.exports.native 		= require('react-native').NativeModules.fndn_rn_datastore;
 
@@ -23,7 +23,7 @@ var opts = {
 
 	data: {
 		// Store everything in this (local) database.
-		database: 'whofw-dev-0002',
+		database: 'whofw-dev-0005',
 
 		// Create AsyncStore backends for these tables
 		// and Datastore.Sync will keep these synchronised with the server
