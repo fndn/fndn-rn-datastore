@@ -14,7 +14,11 @@ module.exports = function(){
 
 	/// Filesystem
 	ds.fs.printDocumentsPath();
-	
+
+	//ds.fs.printDocumentsPath(function(res){
+	//	console.log("Documents path:", res.documents);
+	//});
+		
 
 	ds.fs.ls({dir:'downloads'}, function(err, res){
 		console.log("1 list (cb) expect: default => ", res);

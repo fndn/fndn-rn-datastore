@@ -22,7 +22,7 @@ RCT_EXPORT_MODULE();
 	NSLog(@"fndn-rn-datastore native code init");
 	if((self = [super init])) {
 		/// Setup the webserver, but dont start it
-		[GCDWebServer setLogLevel:2];
+		[GCDWebServer setLogLevel:5]; // 2
 		_webServer = [[GCDWebServer alloc] init];
 		NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 		[_webServer addGETHandlerForBasePath:@"/" directoryPath:documentsDirectory indexFilename:nil cacheAge:0 allowRangeRequests:NO];
@@ -35,18 +35,22 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(startServer:(NSDictionary *) obj) {
 	
-	NSLog(@"FNDN-RN-DATASTORE: startServer()");
-	
+	//NSLog(@"FNDN-RN-DATASTORE: startServer()");
+
 	NSUInteger port = [obj[@"port"] intValue];
 	NSString *bonjourName = obj[@"bonjourName"];
-	
+
+	NSString *bonjourMessage = @"";
+
 	if( bonjourName ){
 		[_webServer startWithPort:port bonjourName:bonjourName];
-		NSLog(@"Started GCDWebServer at %@ with bonjourName %@, port: %lu", _webServer.serverURL, bonjourName, (unsigned long)port);
+		bonjourMessage = [NSString stringWithFormat:@"(Enabled bonjour access as '%@')", bonjourName];
+						  
 	}else{
 		[_webServer startWithPort:port bonjourName:nil];
-		NSLog(@"Started GCDWebServer at %@", _webServer.serverURL);
+		//NSLog(@"Started GCDWebServer at %@", _webServer.serverURL);
 	}
+	NSLog(@"Starting GCDWebServer at 127.0.0.1:%lu (%@) %@", (unsigned long)port, _webServer.serverURL, bonjourMessage);	
 }
 
 #pragma mark - Download
@@ -260,11 +264,23 @@ RCT_EXPORT_METHOD(printDocumentsPath){
 	NSLog(@"documentsDirectory: %@", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
 }
 
+RCT_EXPORT_METHOD(paths:(NSDictionary *)obj callback:(RCTResponseSenderBlock)callback ){
+	NSString *documentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	
+	NSDictionary *res=[[NSDictionary alloc] initWithObjectsAndKeys: documentDirectory, @"documents", nil];
+	callback(@[[NSNull null], res]);
+}
+
+
+
 #pragma mark - Upload
 
 #pragma mark NSURLSession Delegate Methods
 
 /*
+
+// todo: implement these for the uploader
+
  - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
 	NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	NSLog(@"Received String %@",str);
@@ -295,6 +311,7 @@ RCT_EXPORT_METHOD(___upload:(NSDictionary *) obj){
 RCT_EXPORT_METHOD(upload:(NSDictionary *)obj callback:(RCTResponseSenderBlock)callback)
 {
 	NSString *uploadUrl = obj[@"uploadUrl"];
+	NSString *token = obj[@"token"];
 	NSDictionary *fields = obj[@"fields"];
 	NSArray *files = obj[@"files"];
 	NSString *method = @"PUT";
@@ -308,6 +325,9 @@ RCT_EXPORT_METHOD(upload:(NSDictionary *)obj callback:(RCTResponseSenderBlock)ca
 	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", formBoundaryString];
 	[req setValue:contentType forHTTPHeaderField:@"Content-Type"];
 	[req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+	[req setValue:token forHTTPHeaderField:@"x-auth-token"];
+
+	NSLog(@"Using token: %@", token);
 	
 	NSData *formBoundaryData = [[NSString stringWithFormat:@"--%@\r\n", formBoundaryString] dataUsingEncoding:NSUTF8StringEncoding];
 	NSMutableData* reqBody = [NSMutableData data];
@@ -428,7 +448,7 @@ RCT_EXPORT_METHOD(upload:(NSDictionary *)obj callback:(RCTResponseSenderBlock)ca
 	NSString *UTI = (__bridge_transfer NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, NULL);
 	NSString *contentType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)UTI, kUTTagClassMIMEType);
 	
-	NSLog(@"ext from fn:%@ => %@", filepath, contentType);
+	//NSLog(@"ext from fn:%@ => %@", filepath, contentType);
 
 	if (contentType) {
 		return contentType;

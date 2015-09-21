@@ -20,6 +20,8 @@
 	],
 	"scripts": {},
 	"dependencies": {
+		"async": "^1.4.2",
+		"moment": "^2.10.6",
 		"shortid": "^2.2.2",
 		"xhr": "^2.0.3"
 	},
