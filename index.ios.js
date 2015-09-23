@@ -107,10 +107,6 @@ module.exports.hash = function(obj){
 	return module.exports.md5( JSON.stringify(co) );
 }
 
-console.log('1 module.exports.hash', module.exports.hash({_id:10, msg:"hello"}) ) ;
-console.log('2 module.exports.hash', module.exports.hash({msg:"hello"}) ) ;
-
-
 module.exports.info = function(){
 	/*
 	module.exports.fs.paths( function(err, res){
