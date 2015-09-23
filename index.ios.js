@@ -101,6 +101,16 @@ Object.observe(module.exports.M, function(changes){
 	console.log('M:', module.exports.M);
 });
 
+module.exports.hash = function(obj){
+	var co = module.exports.clone(obj);
+	delete co._id;
+	return module.exports.md5( JSON.stringify(co) );
+}
+
+console.log('1 module.exports.hash', module.exports.hash({_id:10, msg:"hello"}) ) ;
+console.log('2 module.exports.hash', module.exports.hash({msg:"hello"}) ) ;
+
+
 module.exports.info = function(){
 	/*
 	module.exports.fs.paths( function(err, res){
