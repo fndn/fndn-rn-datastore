@@ -1,4 +1,4 @@
-var pack 					= require('./package.json'); // somehow fails :|
+//var pack 					= require('./package.json'); // somehow fails :|
 
 module.exports.native 		= require('react-native').NativeModules.fndn_rn_datastore;
 
@@ -85,6 +85,7 @@ module.exports.sync 		= require('./lib/native.sync.ios.js');
 // generic
 module.exports.data 		= require('./lib/datastore.js');
 module.exports.reach 		= require('./lib/reach.js');
+module.exports.md5 			= require('./lib/md5_mod.js'); 
 module.exports.shortid 		= require('shortid');
 module.exports.xhr 			= require('xhr');
 module.exports.clone 		= module.exports.data.cloneObject;
@@ -95,7 +96,13 @@ module.exports.test_native 	= require('./test_native.js');
 module.exports.test_data 	= require('./test_data.js');
 module.exports.test_reach 	= require('./test_reach.js');
 
+if (!Object.observe) require("object.observe");
+Object.observe(module.exports.M, function(changes){
+	console.log('M:', module.exports.M);
+});
+
 module.exports.info = function(){
+	/*
 	module.exports.fs.paths( function(err, res){
 		console.log( pack.name 
 		+ " v."+ pack.version 
@@ -105,5 +112,5 @@ module.exports.info = function(){
 		+", documents:"+ res.documents
 	);
 	});
-	
+	*/
 }
