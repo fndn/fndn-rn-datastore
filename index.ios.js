@@ -86,10 +86,13 @@ module.exports.sync 		= require('./lib/native.sync.ios.js');
 module.exports.data 		= require('./lib/datastore.js');
 module.exports.reach 		= require('./lib/reach.js');
 module.exports.md5 			= require('./lib/md5_mod.js'); 
-module.exports.shortid 		= require('shortid');
 module.exports.xhr 			= require('xhr');
 module.exports.clone 		= module.exports.data.cloneObject;
 module.exports.M 			= {};	// memory store
+
+var _shortid 				= require('shortid');
+_shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ*+');
+module.exports.shortid 		= _shortid;
 
 /// Tests							
 module.exports.test_native 	= require('./test_native.js');

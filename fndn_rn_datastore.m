@@ -26,6 +26,9 @@ RCT_EXPORT_MODULE();
 		_webServer = [[GCDWebServer alloc] init];
 		NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 		[_webServer addGETHandlerForBasePath:@"/" directoryPath:documentsDirectory indexFilename:nil cacheAge:0 allowRangeRequests:NO];
+
+		// 
+		NSLog(@"documentsDirectory: %@", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
 	}
 	return self;
 }
@@ -136,6 +139,25 @@ RCT_EXPORT_METHOD(download:(NSDictionary *) obj){
 	}
 }
 
+
+#pragma mark - Exists
+
+RCT_EXPORT_METHOD(exists:(NSDictionary *) obj callback:(RCTResponseSenderBlock)callback){
+	NSString *filename = obj[@"filename"];
+
+	NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	NSString * testpath = [documentsDirectory stringByAppendingPathComponent:filename];
+	
+	//NSDictionary * res = [NSDictionary alloc];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+
+	if( [fileManager fileExistsAtPath:testpath] ){
+		callback(@[@true]);
+	}else{
+		callback(@[@false]);
+	}
+	//callback(@[@true, res]);
+}
 
 
 #pragma mark - Rename

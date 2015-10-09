@@ -1,6 +1,6 @@
 {
 	"name": "fndn-rn-datastore",
-	"version": "0.7.0",
+	"version": "0.9.0",
 	"description": "A sync'ing offline-first datastore for React Native.",
 	"main": "index.ios.js",
 	"author": {
