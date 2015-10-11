@@ -94,6 +94,9 @@ var _shortid 				= require('shortid');
 _shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ*+');
 module.exports.shortid 		= _shortid;
 
+/// Defaults
+module.exports.tool_popdefs	= require('./tool_populate_defaults.js');
+
 /// Tests							
 module.exports.test_native 	= require('./test_native.js');
 module.exports.test_data 	= require('./test_data.js');
